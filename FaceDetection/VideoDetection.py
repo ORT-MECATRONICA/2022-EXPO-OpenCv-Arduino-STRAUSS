@@ -10,6 +10,12 @@ valorCalibracion2 = 0
 laser_valueX = 0
 laser_valueY = 0
 
+send_serialX = "S"
+send_serialY = "S"
+
+actual_send_serialX = ""
+actual_send_serialY = ""
+
 capture = cv.VideoCapture(0, cv.CAP_DSHOW)
 haar_cascade = cv.CascadeClassifier("FaceDetection/haar_faceee.xml")
 # serialArduino = serial.Serial("COM7",9600) #Descomentar cuando haya algo en el puerto
@@ -44,6 +50,8 @@ def laser(frame):
 
             laser_valueX = i[0]
             laser_valueY = i[1]
+    else:
+        pass
 
 def rescaleFrame(frame, scale=0.75):  # Rescalar el video (Default = 0.75) 
     width = int(frame.shape[1]  * scale)
@@ -76,24 +84,27 @@ while True:
         laser(frame2)
         if (laser_valueX > x+x_value and laser_valueX < x+w-x_value and laser_valueY > y+y_value and laser_valueY < y+h-y_value): # Dentro del cuadrado chico
             cv.rectangle(frame2, (x+x_value,y+y_value), (x+w-x_value,y+h-y_value), (0,255,255), thickness=2)
+            send_serialX = "S"
+            send_serialY = "S"
         else:
             cv.rectangle(frame2, (x+x_value,y+y_value), (x+w-x_value,y+h-y_value), (0,255,0), thickness=2)
            
             # Falta poner los movimientos en serial
             if (laser_valueX < x+x_value):
-                # Mover L (Revisar)
-                pass
+                send_serialX = "L"
             elif (laser_valueX > x+w-x_value):
-                # Mover R (Revisar)
-                pass
+                send_serialX = "R"
             if (laser_valueY < y+y_value):
-                # Mover D
-                pass
+                send_serialY = "D"
             elif (laser_valueY > y+h-y_value):
-                # Mover U
-                pass
+                send_serialY = "U"
 
-            # Poner lascondiciones paa enviar por serial.
+        if(send_serialX != actual_send_serialX or send_serialY != actual_send_serialY):
+            print(send_serialX, send_serialY)
+
+            actual_send_serialX = send_serialX
+            actual_send_serialY = send_serialY
+            # Falta enviar
   
 
     numpy_horizontal = np.hstack((frame2, frame1))
