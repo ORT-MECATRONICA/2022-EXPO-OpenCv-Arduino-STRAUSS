@@ -1,5 +1,5 @@
 # Falta hacer version para objetos (con colores y me ahorro todo lo de las caras)
-
+ 
 import cv2 as cv
 # import serial
 import numpy as np
