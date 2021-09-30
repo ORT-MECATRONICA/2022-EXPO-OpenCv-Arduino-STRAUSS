@@ -1,57 +1,48 @@
-import cv2 as cv
-import serial
-import numpy as np
-import time
-import math
+# Falta hacer version para objetos (con colores y me ahorro todo lo de las caras)
 
-valorCalibracion1 = 180
-valorCalibracion2 = 0
+import cv2 as cv
+# import serial
+import numpy as np
+# import time
+# import math
 
 laser_valueX = 0
 laser_valueY = 0
 
+# Valores posibles: U (Up), D (Down), R (Right), L (Left), S (Stop)
 send_serialX = "S"
 send_serialY = "S"
-
 actual_send_serialX = ""
 actual_send_serialY = ""
 
-capture = cv.VideoCapture(0, cv.CAP_DSHOW)
-haar_cascade = cv.CascadeClassifier("FaceDetection/haar_faceee.xml")
+capture = cv.VideoCapture(0, cv.CAP_DSHOW) # 0 para la camara default
+haar_cascade = cv.CascadeClassifier("FaceDetection/haar_faceee.xml") # pPner ubicacion del archivo (Me genero problemas)
+# Este archivo es para la deteccion de caras.
+
 # serialArduino = serial.Serial("COM7",9600) #Descomentar cuando haya algo en el puerto
 
 def laser(frame):
     global laser_valueX, laser_valueY
 
-    lower_red = np.array([0,0,255]) 
+    # Valores Para la identificacion del laser (Ajustar segun iluminacion)
+    lower_red = np.array([0,0,255])
     upper_red = np.array([220,220,255]) 
 
-    kernel = np.ones((3,3),np.uint8) # no se para que es
+    kernel = np.ones((3,3),np.uint8) # No se para que es
 
     mask_HSV = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
-    mask = cv.inRange(mask_HSV, lower_red, upper_red) 
+    mask = cv.inRange(mask_HSV, lower_red, upper_red) # Aca busca segun el rango de colores
     mask = cv.morphologyEx(mask, cv.MORPH_OPEN, kernel)
     #mask = cv.morphologyEx(mask, cv.MORPH_CLOSE, kernel)
-    output_mask = cv.bitwise_and(frame, frame, mask = mask)
 
     (minVal, maxVal,minLoc, maxLoc) = cv.minMaxLoc(mask) 
     cv.circle(frame, maxLoc, 20, (0, 0, 255), 2, cv.LINE_AA)
+    cv.circle(frame, maxLoc, 5, (255, 0, 0), -1, cv.LINE_AA)
 
-    output_hough = cv.cvtColor(output_mask, cv.COLOR_BGR2GRAY) 
-    output_hough = cv.medianBlur(output_hough, 5)
-    circles = cv.HoughCircles(output_hough, cv.HOUGH_GRADIENT, 1, 20, param1=18, param2=8, minRadius=0, maxRadius=15)
- 
-    #Circulo verde
-    if circles is not None:
-        circles = np.uint16(np.around(circles))
-        for i in circles[0,:]:
-            cv.circle(frame,(i[0],i[1]),i[2],(0,255,0),2)
-            cv.circle(frame,(i[0],i[1]),2,(0,255,0),3)
-
-            laser_valueX = i[0]
-            laser_valueY = i[1]
-    else:
-        pass
+    # maxLoc = ubicaccion del valor maximo 
+    # Falta asignar valor de maxLoc a estos 2
+    laser_valueX = 0
+    laser_valueY = 0
 
 def rescaleFrame(frame, scale=0.75):  # Rescalar el video (Default = 0.75) 
     width = int(frame.shape[1]  * scale)
@@ -88,18 +79,20 @@ while True:
             send_serialY = "S"
         else:
             cv.rectangle(frame2, (x+x_value,y+y_value), (x+w-x_value,y+h-y_value), (0,255,0), thickness=2)
-           
-            # Falta poner los movimientos en serial
+
             if (laser_valueX < x+x_value):
                 send_serialX = "L"
             elif (laser_valueX > x+w-x_value):
                 send_serialX = "R"
+
+            # Falta agregar los casos en los que uno este en su rango (X o Y) y el otro no.
+            
             if (laser_valueY < y+y_value):
                 send_serialY = "D"
             elif (laser_valueY > y+h-y_value):
                 send_serialY = "U"
 
-        if(send_serialX != actual_send_serialX or send_serialY != actual_send_serialY):
+        if(send_serialX != actual_send_serialX or send_serialY != actual_send_serialY): # Enviar solo cuando cambia
             print(send_serialX, send_serialY)
 
             actual_send_serialX = send_serialX
@@ -107,7 +100,7 @@ while True:
             # Falta enviar
   
 
-    numpy_horizontal = np.hstack((frame2, frame1))
+    numpy_horizontal = np.hstack((frame2, frame1)) # Para juntar las ventanas
     cv.imshow('FaceDetection', numpy_horizontal)
 
     if cv.waitKey(19) & 0xFF==ord("f"):  # Tecla "f" para romper el while
