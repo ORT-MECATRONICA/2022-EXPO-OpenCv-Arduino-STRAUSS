@@ -72,6 +72,8 @@ while True:
         y_val = int(y + (h/2))
 
         cv.rectangle(frame2, (x,y), (x+w,y+h), (0,255,0), thickness=2)
+        
+        # Esto se puede sacar del for (Hay que hcerlo)
         laser(frame2)
         if (laser_valueX > x+x_value and laser_valueX < x+w-x_value and laser_valueY > y+y_value and laser_valueY < y+h-y_value): # Dentro del cuadrado chico
             cv.rectangle(frame2, (x+x_value,y+y_value), (x+w-x_value,y+h-y_value), (0,255,255), thickness=2)
