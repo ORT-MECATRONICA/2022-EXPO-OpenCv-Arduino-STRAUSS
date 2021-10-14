@@ -1,23 +1,27 @@
-# Falta hacer version para objetos (con colores y me ahorro todo lo de las caras)
 import cv2 as cv
 import serial
 import numpy as np
 import time
-# import math
 
-camera_angle = 60 # Cambiar
 
-desvioX = 0 # Cambiar
-desvioY = 0
+camera_angleX = int(input("Ingrese el el angulo de la camara (x): "))
+camera_angleY = int(input("Ingrese el el angulo de la camara (y): "))
+# camera_angleX = 36 # Cambiar
+# camera_angleY = 30
 
-pruebaEnvioX = 0
-pruebaEnvioY = 0
+desvioX = int(input("Ingrese el desvio en x: "))
+desvioY = int(input("Ingrese el desvio en y: "))
+# desvioX = 62 # Cambiar
+# desvioY = 58
+
+PORT = input("Ingrese el puerto serie: ")
+# PORT = "COM4"
 
 capture = cv.VideoCapture(0, cv.CAP_DSHOW) # 0 para la camara default
-haar_cascade = cv.CascadeClassifier("FaceDetection/haar_faceee.xml") # pPner ubicacion del archivo (Me genero problemas)
+haar_cascade = cv.CascadeClassifier("Python/haar_faceee.xml") # pPner ubicacion del archivo (Me genero problemas)
 # Este archivo es para la deteccion de caras.
 
-serialArduino = serial.Serial("COM4",9600)
+serialArduino = serial.Serial(PORT,9600)
 
 
 def rescaleFrame(frame, scale=0.75):  # Rescalar el video (Default = 0.75) 
@@ -52,11 +56,10 @@ while True:
         cv.rectangle(frame2, (x,y), (x+w,y+h), (255,0,0), thickness=2)
         cv.circle(frame2, (x_val, y_val), 5 , (0,0,255), thickness=-1)
 
-        send_x = int((x_val / width * camera_angle) + desvioX) # Paso de pixeles a angulos y sumo el desvio de angulos entre servos y camara
-        send_y = int((y_val / height * camera_angle) + desvioY)
+        send_x = int((x_val / width * camera_angleX) + desvioX) # Paso de pixeles a angulos y sumo el desvio de angulos entre servos y camara
+        send_y = int((y_val / height * camera_angleY) + desvioY)
 
-        # sendSerial = str(send_x) + "," + str(send_y)
-        sendSerial = str(pruebaEnvioX) + "," + str(pruebaEnvioY)
+        sendSerial = str(send_x) + "," + str(send_y)
         print(sendSerial)
 
         serialArduino.write(sendSerial.encode('ascii'))

@@ -1,6 +1,5 @@
 import cv2 as cv
 import numpy as np
-import math
 
 capture = cv.VideoCapture(0)
 
@@ -16,11 +15,13 @@ while True:
     isTrue, frame1 = capture.read(0)
     frame1 = cv.flip(frame1, 1)
     frame1 = rescaleFrame(frame1, 1) #cambiar el valr aca para aumentar o achicar
+    frame2 = rescaleFrame(frame1, 1)
 
     width = int(frame1.shape[1])
     height = int(frame1.shape[0])
 
-    cv.imshow('pointCalibration', frame1)
+    numpy_horizontal = np.hstack((frame2, frame1)) # Para juntar las ventanas
+    cv.imshow('FaceDetection', numpy_horizontal)
 
     if cv.waitKey(19) & 0xFF==ord("f"):  # Tecla "d" para romper el while
         break

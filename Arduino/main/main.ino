@@ -39,4 +39,5 @@ void servoPosition(String serial) {
 
   valorServoX = X.toInt();
   valorServoY = Y.toInt();
+  valorServoY = map(valorServoY, 0, 180, 180, 0);
 }
