@@ -17,13 +17,14 @@ desvioY = int(input("Ingrese el desvio en y: "))
 # desvioY = 58
 
 # Solo para azul
-azulBajo = np.array([90, 100, 20], np.vint8)
-azulAlto = np.array([120, 255, 255], np.vint8)
+azulBajo = np.array([90, 100, 20], np.uint8)
+azulAlto = np.array([120, 255, 255], np.uint8)
 
 AREA = int(input("Ingrese el area: "))
 # AREA = 2000
 
-capture = cv.VideoCapture(0, cv.CAP_DSHOW) # 0 para la camara default
+VIDEO = int(input("Video: "))
+capture = cv.VideoCapture(VIDEO, cv.CAP_DSHOW) # 0 para la camara default
 serialArduino = serial.Serial(PORT,9600)
 
 

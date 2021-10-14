@@ -16,7 +16,8 @@ desvioY = int(input("Ingrese el desvio en y: "))
 PORT = input("Ingrese el puerto serie: ")
 # PORT = "COM4"
 
-capture = cv.VideoCapture(0, cv.CAP_DSHOW) # 0 para la camara default
+VIDEO = int(input("Video: "))
+capture = cv.VideoCapture(VIDEO, cv.CAP_DSHOW) # 0 para la camara default
 haar_cascade = cv.CascadeClassifier("Python/haar_faceee.xml") # pPner ubicacion del archivo (Me genero problemas)
 # Este archivo es para la deteccion de caras.
 serialArduino = serial.Serial(PORT,9600)

@@ -1,7 +1,8 @@
 import cv2 as cv
 import numpy as np
 
-capture = cv.VideoCapture(0)
+VIDEO = int(input("Video: "))
+capture = cv.VideoCapture(VIDEO)
 
 def rescaleFrame(frame, scale=0.75):  # Rescalar el video (Default = 0.75) 
     width = int(frame.shape[1]  * scale)
