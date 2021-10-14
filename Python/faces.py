@@ -3,7 +3,6 @@ import serial
 import numpy as np
 import time
 
-
 camera_angleX = int(input("Ingrese el el angulo de la camara (x): "))
 camera_angleY = int(input("Ingrese el el angulo de la camara (y): "))
 # camera_angleX = 36 # Cambiar
@@ -20,7 +19,6 @@ PORT = input("Ingrese el puerto serie: ")
 capture = cv.VideoCapture(0, cv.CAP_DSHOW) # 0 para la camara default
 haar_cascade = cv.CascadeClassifier("Python/haar_faceee.xml") # pPner ubicacion del archivo (Me genero problemas)
 # Este archivo es para la deteccion de caras.
-
 serialArduino = serial.Serial(PORT,9600)
 
 
