@@ -12,7 +12,7 @@ int valorServoY;
 String lecturaSerial;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   servoX.attach(PIN_SERVOX);
   servoY.attach(PIN_SERVOY);
