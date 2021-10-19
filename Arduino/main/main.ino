@@ -18,6 +18,7 @@ void setup() {
   servoY.attach(PIN_SERVOY);
   servoX.write(75);
   servoY.write(95);
+  Serial.setTimeout(10);
 }
 
 void loop() {
