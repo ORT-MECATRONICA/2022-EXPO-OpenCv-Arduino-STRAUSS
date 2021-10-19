@@ -12,4 +12,4 @@ This project aims to point a laser at people's faces through facial recognition 
 
 ## Contributors
 
-[Young Kippur](https://github.com/YoungKippur) (Marcos Strauss) and [BrunZo](https://github.com/BrunZo).
+[Young Kippur](https://github.com/YoungKippur) (Marcos Strauss).
