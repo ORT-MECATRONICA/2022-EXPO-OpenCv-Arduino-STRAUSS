@@ -20,7 +20,7 @@ VIDEO = int(input("Video: "))
 capture = cv.VideoCapture(VIDEO, cv.CAP_DSHOW) # 0 para la camara default
 haar_cascade = cv.CascadeClassifier("Python/haar_faceee.xml") # pPner ubicacion del archivo (Me genero problemas)
 # Este archivo es para la deteccion de caras.
-serialArduino = serial.Serial(PORT,9600)
+serialArduino = serial.Serial(PORT,115200)
 
 
 def rescaleFrame(frame, scale=0.75):  # Rescalar el video (Default = 0.75) 
@@ -62,7 +62,7 @@ while True:
         print(sendSerial)
 
         serialArduino.write(sendSerial.encode('ascii'))
-        time.sleep(1)
+        time.sleep(0.1)
 
         
     numpy_horizontal = np.hstack((frame2, frame1)) # Para juntar las ventanas
