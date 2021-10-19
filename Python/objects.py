@@ -25,7 +25,7 @@ AREA = int(input("Ingrese el area: "))
 
 VIDEO = int(input("Video: "))
 capture = cv.VideoCapture(VIDEO, cv.CAP_DSHOW) # 0 para la camara default
-serialArduino = serial.Serial(PORT,9600)
+serialArduino = serial.Serial(PORT, 115200)
 
 
 def rescaleFrame(frame, scale=0.75):  # Rescalar el video (Default = 0.75) 
