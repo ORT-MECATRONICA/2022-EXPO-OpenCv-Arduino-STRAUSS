@@ -73,7 +73,7 @@ while True:
             sendSerial = str(send_x) + "," + str(send_y)
             print(sendSerial)
             serialArduino.write(sendSerial.encode('ascii'))
-            time.sleep(1)
+            time.sleep(0.1)
 
     numpy_horizontal = np.hstack((frame2, frame1)) # Para juntar las ventanas
     cv.imshow('FaceDetection', numpy_horizontal)
