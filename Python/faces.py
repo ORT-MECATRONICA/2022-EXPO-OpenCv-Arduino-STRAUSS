@@ -13,6 +13,8 @@ desvioY = int(input("Ingrese el desvio en y: "))
 # desvioX = 62 # Cambiar
 # desvioY = 58
 
+DELAY = float(input("Ingrese delay: "))
+
 PORT = input("Ingrese el puerto serie: ")
 # PORT = "COM4"
 
@@ -62,7 +64,7 @@ while True:
         print(sendSerial)
 
         serialArduino.write(sendSerial.encode('ascii'))
-        time.sleep(0.1)
+        time.sleep(DELAY)
 
         
     numpy_horizontal = np.hstack((frame2, frame1)) # Para juntar las ventanas
