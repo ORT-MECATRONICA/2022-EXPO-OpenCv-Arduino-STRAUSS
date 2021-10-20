@@ -23,6 +23,8 @@ azulAlto = np.array([120, 255, 255], np.uint8)
 AREA = int(input("Ingrese el area: "))
 # AREA = 2000
 
+DELAY = float(input("Ingrese delay: "))
+
 VIDEO = int(input("Video: "))
 capture = cv.VideoCapture(VIDEO, cv.CAP_DSHOW) # 0 para la camara default
 serialArduino = serial.Serial(PORT, 115200)
@@ -73,7 +75,7 @@ while True:
             sendSerial = str(send_x) + "," + str(send_y)
             print(sendSerial)
             serialArduino.write(sendSerial.encode('ascii'))
-            time.sleep(0.1)
+            time.sleep(DELAY)
 
     numpy_horizontal = np.hstack((frame2, frame1)) # Para juntar las ventanas
     cv.imshow('FaceDetection', numpy_horizontal)
