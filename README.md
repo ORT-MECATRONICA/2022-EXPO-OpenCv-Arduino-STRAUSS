@@ -1,6 +1,6 @@
 # OpenCv-Arduino
 This project aims to point a laser at people's faces through facial recognition from the OpenCv library and a servo with an Arduino
-(the file "pointCalibration" is used to obtain the limit values of the servo)
+(the file "pointCalibration" is used to obtain the limit values of the servo) (updated repo [here](https://github.com/YoungKippur?tab=repositories))
 
 ## Interface
 
